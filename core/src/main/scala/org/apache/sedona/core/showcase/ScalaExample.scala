@@ -148,6 +148,8 @@ object ScalaExample extends App {
     val objectRDD = new PointRDD(sc, PointRDDInputLocation, PointRDDOffset, PointRDDSplitter, true, StorageLevel.MEMORY_ONLY)
 
     objectRDD.spatialPartitioning(joinQueryPartitioningType)
+    //objectRDD.saveAsWKB("/D:/2_sourcecode/rdd.wkb")
+    objectRDD.saveAsGeoJSON("/D:/2_sourcecode/rddgeojson")
     queryWindowRDD.spatialPartitioning(objectRDD.getPartitioner)
 
     objectRDD.spatialPartitionedRDD.persist(StorageLevel.MEMORY_ONLY)

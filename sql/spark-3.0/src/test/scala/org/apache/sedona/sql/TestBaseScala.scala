@@ -19,7 +19,9 @@
 package org.apache.sedona.sql
 
 import org.apache.log4j.{Level, Logger}
+import org.apache.sedona.core.serde.SedonaKryoRegistrator
 import org.apache.sedona.spark.SedonaContext
+import org.apache.spark.serializer.KryoSerializer
 import org.apache.spark.sql.DataFrame
 import org.scalatest.{BeforeAndAfterAll, FunSpec}
 
@@ -30,15 +32,32 @@ trait TestBaseScala extends FunSpec with BeforeAndAfterAll {
   Logger.getLogger("akka").setLevel(Level.WARN)
   Logger.getLogger("org.apache.sedona.core").setLevel(Level.WARN)
 
+  val s3accessKeyAws = "minioadmin"
+  val s3secretKeyAws = "minioadmin"
+  val connectionTimeOut = "600000"
+  val s3endPointLoc: String = "http://127.0.0.1:9000"
+
   val warehouseLocation = System.getProperty("user.dir") + "/target/"
+
   val sparkSession = SedonaContext.builder().
     master("local[*]").appName("sedonasqlScalaTest")
     .config("spark.sql.warehouse.dir", warehouseLocation)
     // We need to be explicit about broadcasting in tests.
     .config("sedona.join.autoBroadcastJoinThreshold", "-1")
+    .config("spark.serializer", classOf[KryoSerializer].getName)
+    .config("spark.kryo.registrator", classOf[SedonaKryoRegistrator].getName)
+    .config("spark.hadoop.fs.s3a.endpoint", s3endPointLoc)
+    .config("spark.hadoop.fs.s3a.access.key", s3accessKeyAws)
+    .config("spark.hadoop.fs.s3a.secret.key", s3secretKeyAws)
+    .config("spark.hadoop.fs.s3a.connection.timeout", connectionTimeOut)
+
+    .config("spark.sql.debug.maxToStringFields", "100")
+    .config("spark.hadoop.fs.s3a.path.style.access", "true")
+    .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+    .config("spark.hadoop.fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider")
     .getOrCreate()
 
-  val resourceFolder = System.getProperty("user.dir") + "/../../core/src/test/resources/"
+  val resourceFolder = System.getProperty("user.dir") + "../../../core/src/test/resources/"
 
   override def beforeAll(): Unit = {
     SedonaContext.create(sparkSession)

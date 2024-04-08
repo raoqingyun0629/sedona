@@ -34,9 +34,28 @@
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
+        <spark.scope>compile</spark.scope>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-aws</artifactId>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.362</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        -->
         <dependency>
             <groupId>org.apache.sedona</groupId>
             <artifactId>sedona-common</artifactId>
@@ -53,7 +72,7 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
-            <scope>provided</scope>
+            <scope>${spark.scope}</scope>
             <exclusions>
                 <!-- Make sure Hadoop's guava version is used for older versions of Spark tests -->
                 <exclusion>
@@ -89,7 +108,7 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
-            <scope>provided</scope>
+            <scope>${spark.scope}</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>

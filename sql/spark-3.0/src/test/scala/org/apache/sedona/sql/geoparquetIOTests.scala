@@ -49,7 +49,7 @@ class geoparquetIOTests extends TestBaseScala with BeforeAndAfterAll {
   val geoparquetdatalocation4: String = resourceFolder + "geoparquet/example-1.0.0-beta.1.parquet"
   val geoparquetoutputlocation: String = resourceFolder + "geoparquet/geoparquet_output/"
 
-  override def afterAll(): Unit = FileUtils.deleteDirectory(new File(geoparquetoutputlocation))
+  //override def afterAll(): Unit = FileUtils.deleteDirectory(new File(geoparquetoutputlocation))
 
   describe("GeoParquet IO tests"){
     it("GEOPARQUET Test example1 i.e. naturalearth_lowers dataset's Read and Write"){
