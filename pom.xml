@@ -82,8 +82,8 @@
         <!-- Actual scala, spark and log4j version will be set by activated profiles.
              Setting a default value helps IDE:s that can't make sense of profiles. -->
         <scala.compat.version>2.12</scala.compat.version>
-        <spark.version>3.3.0</spark.version>
-        <spark.compat.version>3.0</spark.compat.version>
+        <spark.version>3.4.0</spark.version>
+        <spark.compat.version>3.4</spark.compat.version>
         <log4j.version>2.17.2</log4j.version>
 
         <slf4j.version>1.7.36</slf4j.version>
@@ -94,9 +94,9 @@
         <geoglib.version>1.52</geoglib.version>
         <caffeine.version>2.9.2</caffeine.version>
 
-        <geotools.scope>provided</geotools.scope>
+        <geotools.scope>compile</geotools.scope>
         <!-- Because it's not in Maven central, make it provided by default -->
-        <cdm.scope>provided</cdm.scope>
+        <cdm.scope>compile</cdm.scope>
 
         <!-- For JDK-17 test -->
         <extraJavaTestArgs>
@@ -272,7 +272,7 @@
                 <groupId>org.apache.hadoop</groupId>
                 <artifactId>hadoop-client</artifactId>
                 <version>${hadoop.version}</version>
-                <scope>provided</scope>
+                <scope>compile</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>log4j</groupId>
@@ -292,26 +292,26 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
-                <scope>provided</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-1.2-api</artifactId>
                 <version>${log4j.version}</version>
-                <scope>provided</scope>
+                <scope>compile</scope>
             </dependency>
             <!-- Just include log4j deps for tests for consistent logging across modules-->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
-                <scope>test</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.version}</version>
-                <scope>test</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -327,7 +327,7 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>4.0.2</version>
-                <scope>provided</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -652,7 +652,6 @@
                     <name>spark</name>
                     <value>3.0</value>
                 </property>
-                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <spark.version>3.3.0</spark.version>
@@ -667,6 +666,7 @@
                     <name>spark</name>
                     <value>3.4</value>
                 </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <spark.version>3.4.0</spark.version>

@@ -28,6 +28,7 @@ import org.apache.sedona.core.serde.SedonaKryoRegistrator;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.serializer.KryoSerializer;
+import org.apache.spark.sql.SparkSession;
 
 import java.io.IOException;
 

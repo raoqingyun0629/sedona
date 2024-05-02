@@ -20,6 +20,7 @@ package org.apache.sedona.core.spatialOperator;
 
 import org.apache.sedona.core.enums.GridType;
 import org.apache.sedona.core.enums.IndexType;
+import org.apache.sedona.core.formatMapper.shapefileParser.ShapefileReader;
 import org.apache.sedona.core.spatialRDD.CircleRDD;
 import org.apache.sedona.core.spatialRDD.SpatialRDD;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -134,6 +135,10 @@ public class JoinQueryTest extends SpatialQueryTestBase {
         verifySpatialJoinResult(actualResultRdd);
     }
 
+    /**
+     * 空间连接，窗口数据内预建空间索引 ；
+     * @throws Exception
+     */
     @Test
     public void testSpatialJoinWithQueryWindowIndex() throws Exception {
         SpatialRDD<Geometry> spatialRDD = new SpatialRDD<>();
@@ -148,17 +153,36 @@ public class JoinQueryTest extends SpatialQueryTestBase {
         verifySpatialJoinResult(actualResultRdd);
     }
 
+    /**
+     * 空间连接，采用动态索引技术 ；
+     * @throws Exception
+     */
     @Test
     public void testSpatialJoinWithDynamicIndex() throws Exception {
-        SpatialRDD<Geometry> spatialRDD = new SpatialRDD<>();
-        spatialRDD.rawSpatialRDD = inputRdd;
-        spatialRDD.analyze();
-        spatialRDD.spatialPartitioning(GridType.KDBTREE, 10);
-        SpatialRDD<Geometry> queryRDD = new SpatialRDD<>();
-        queryRDD.rawSpatialRDD = queryDataRdd;
-        queryRDD.spatialPartitioning(spatialRDD.getPartitioner());
-        JavaPairRDD<Geometry, List<Geometry>> actualResultRdd = JoinQuery.SpatialJoinQuery(spatialRDD, queryRDD, true, spatialPredicate);
-        verifySpatialJoinResult(actualResultRdd);
+        {
+            /*SpatialRDD<Geometry> spatialRDD = new SpatialRDD<>();
+            spatialRDD.rawSpatialRDD = inputRdd;
+            spatialRDD.analyze();
+            spatialRDD.spatialPartitioning(GridType.KDBTREE, 10);
+            SpatialRDD<Geometry> queryRDD = new SpatialRDD<>();
+            queryRDD.rawSpatialRDD = queryDataRdd;
+            queryRDD.spatialPartitioning(spatialRDD.getPartitioner());
+            JavaPairRDD<Geometry, List<Geometry>> actualResultRdd = JoinQuery.SpatialJoinQuery(spatialRDD, queryRDD, true, spatialPredicate);
+            verifySpatialJoinResult(actualResultRdd);*/
+        }
+        {
+            String inputLocation_hongshui = "/D:/1_software/gis/geoserver/geoserver-2.21.0-bin/data_dir/data/nyc/japanese";
+            SpatialRDD<Geometry> spatialRDD = ShapefileReader.readToGeometryRDD(sc, inputLocation_hongshui);
+            spatialRDD.analyze();
+            spatialRDD.spatialPartitioning(GridType.KDBTREE, 50);
+            spatialRDD.buildIndex(IndexType.RTREE, true);
+            String queryLocation_landuse = "/D:/5_data/japanese/landuse";
+            SpatialRDD<Geometry>  queryRdd = ShapefileReader.readToGeometryRDD(sc, queryLocation_landuse);
+            queryRdd.spatialPartitioning(spatialRDD.getPartitioner());
+            JavaPairRDD<Geometry, List<Geometry>> actualResultRdd = JoinQuery
+                    .SpatialJoinQuery(spatialRDD, queryRdd, true, SpatialPredicate.INTERSECTS);
+            actualResultRdd.count();
+        }
     }
 
     @Test

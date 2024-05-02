@@ -34,6 +34,8 @@
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
+        <spark.compat.version>3.4</spark.compat.version>
+        <scala.compat.version>2.12</scala.compat.version>
     </properties>
 
     <modules>
@@ -60,7 +62,7 @@
                 <groupId>org.apache.spark</groupId>
                 <artifactId>spark-core_${scala.compat.version}</artifactId>
                 <version>${spark.version}</version>
-                <scope>provided</scope>
+                <!--<scope>provided</scope>-->
                 <exclusions>
                     <!-- Make sure Hadoop's guava version is used for older versions of Spark tests -->
                     <exclusion>
@@ -87,7 +89,7 @@
                 <groupId>org.apache.spark</groupId>
                 <artifactId>spark-sql_${scala.compat.version}</artifactId>
                 <version>${spark.version}</version>
-                <scope>provided</scope>
+                <!--<scope>provided</scope>-->
             </dependency>
             <dependency>
                 <groupId>org.scala-lang</groupId>

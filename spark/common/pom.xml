@@ -21,7 +21,7 @@
 	<modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.sedona</groupId>
-        <artifactId>sedona-spark-parent-${spark.compat.version}_${scala.compat.version}</artifactId>
+        <artifactId>sedona-spark-parent-3.4_2.12</artifactId>
         <version>1.5.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -34,6 +34,8 @@
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
+        <spark.compat.version>3.4</spark.compat.version>
+        <scala.compat.version>2.12</scala.compat.version>
     </properties>
 
     <dependencies>

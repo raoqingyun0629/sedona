@@ -227,11 +227,18 @@ abstract class JudgementBase<T extends Geometry, U extends Geometry>
                         batch.add(Pair.of((U) buildShape, (T) streamShape));
                         resultCount.add(1);
                     }
+
                 }
                 else {
+                    long startTime = System.currentTimeMillis();
                     if (match(streamShape, buildShape)) {
                         batch.add(Pair.of((U) streamShape, (T) buildShape));
                         resultCount.add(1);
+                    }
+                    long endTime = System.currentTimeMillis();
+                    long costs = (endTime - startTime) ;
+                    if(costs > 5000){
+                        System.out.println("match costs " + (endTime - startTime) + " ms");
                     }
                 }
             }

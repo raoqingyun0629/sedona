@@ -61,6 +61,7 @@ public class SpatialQueryTestBase extends TestBase {
 
     protected static Map<Integer, Geometry> readTestDataAsMap(String fileName) throws IOException {
         String inputLocation = RangeQueryTest.class.getClassLoader().getResource(fileName).getPath();
+        inputLocation = inputLocation.substring(1);
         try (Stream<String> lines = Files.lines(Paths.get(inputLocation))) {
             Map<Integer, Geometry> map = new HashMap<>();
             lines.forEach(line -> {

@@ -33,8 +33,10 @@
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>
-        <geotools.scope>provided</geotools.scope>
+        <geotools.scope>compile</geotools.scope>
         <cdm.scope>compile</cdm.scope>
+        <spark.compat.version>3.4</spark.compat.version>
+        <scala.compat.version>2.12</scala.compat.version>
     </properties>
 
     <dependencies>

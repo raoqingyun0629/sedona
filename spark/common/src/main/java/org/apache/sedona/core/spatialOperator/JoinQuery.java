@@ -92,8 +92,11 @@ public class JoinQuery
             Iterator<Tuple2<U, T>> it = t.iterator();
             Tuple2<U, T> firstTpl = it.next();
             U key = firstTpl._1;
-            values.add(firstTpl._2);
-            while (it.hasNext()) { values.add(it.next()._2); }
+            int geoCounts = 1 ;
+            //values.add(firstTpl._2);
+           // while (it.hasNext()) { values.add(it.next()._2); }
+            while (it.hasNext()) { geoCounts++; } ;
+            System.out.println("key geoCount is" + geoCounts);
             return new Tuple2<U, List<T>>(key, values);
         });
     }

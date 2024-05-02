@@ -87,7 +87,7 @@ public class KDB extends PartitioningUtils
         return extent;
     }
 
-    public void insert(Envelope envelope)
+    public void  insert(Envelope envelope)
     {
         if (items.size() < maxItemsPerNode || level >= maxLevels) {
             items.add(envelope);
